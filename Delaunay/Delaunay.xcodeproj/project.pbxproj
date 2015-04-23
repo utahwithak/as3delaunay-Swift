@@ -153,6 +153,50 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		46CB2A451AE97C6000B29FF7 /* Geom */ = {
+			isa = PBXGroup;
+			children = (
+				46D73A801AE9783F00C92256 /* LineSegment.swift */,
+				46D73A831AE9783F00C92256 /* Polygon.swift */,
+				46D73A891AE9783F00C92256 /* Triangle.swift */,
+				46D73A8D1AE9783F00C92256 /* Winding.swift */,
+				46D73A761AE9783F00C92256 /* Circle.swift */,
+			);
+			name = Geom;
+			sourceTree = "<group>";
+		};
+		46CB2A461AE97C7800B29FF7 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				46D73A7D1AE9783F00C92256 /* ICoord.swift */,
+				46D73A7E1AE9783F00C92256 /* IDisposable.swift */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
+		46CB2A471AE97C8300B29FF7 /* Delaunay */ = {
+			isa = PBXGroup;
+			children = (
+				46D73A781AE9783F00C92256 /* Edge.swift */,
+				46D73A791AE9783F00C92256 /* EdgeList.swift */,
+				46D73A7A1AE9783F00C92256 /* EdgeReorderer.swift */,
+				46D73A7B1AE9783F00C92256 /* Halfedge.swift */,
+				46D73A7C1AE9783F00C92256 /* HalfedgePriorityQueue.swift */,
+				46D73A7F1AE9783F00C92256 /* Kruskal.swift */,
+				46D73A811AE9783F00C92256 /* LR.swift */,
+				46D73A821AE9783F00C92256 /* Point.swift */,
+				46D73A841AE9783F00C92256 /* Rectangle.swift */,
+				46D73A851AE9783F00C92256 /* selectEdgesForSitePoint.swift */,
+				46D73A861AE9783F00C92256 /* selectNonIntersectingEdges.swift */,
+				46D73A871AE9783F00C92256 /* Site.swift */,
+				46D73A881AE9783F00C92256 /* SiteList.swift */,
+				46D73A8A1AE9783F00C92256 /* Vertex.swift */,
+				46D73A8B1AE9783F00C92256 /* VisibleLineSegments.swift */,
+				46D73A8C1AE9783F00C92256 /* Voronoi.swift */,
+			);
+			name = Delaunay;
+			sourceTree = "<group>";
+		};
 		46D73A501AE977FF00C92256 = {
 			isa = PBXGroup;
 			children = (
@@ -179,30 +223,10 @@
 			isa = PBXGroup;
 			children = (
 				46D73A5F1AE977FF00C92256 /* Delaunay.h */,
-				46D73A761AE9783F00C92256 /* Circle.swift */,
+				46CB2A451AE97C6000B29FF7 /* Geom */,
+				46CB2A461AE97C7800B29FF7 /* Utils */,
 				46D73A771AE9783F00C92256 /* DelaunayLinesForEdges.swift */,
-				46D73A781AE9783F00C92256 /* Edge.swift */,
-				46D73A791AE9783F00C92256 /* EdgeList.swift */,
-				46D73A7A1AE9783F00C92256 /* EdgeReorderer.swift */,
-				46D73A7B1AE9783F00C92256 /* Halfedge.swift */,
-				46D73A7C1AE9783F00C92256 /* HalfedgePriorityQueue.swift */,
-				46D73A7D1AE9783F00C92256 /* ICoord.swift */,
-				46D73A7E1AE9783F00C92256 /* IDisposable.swift */,
-				46D73A7F1AE9783F00C92256 /* Kruskal.swift */,
-				46D73A801AE9783F00C92256 /* LineSegment.swift */,
-				46D73A811AE9783F00C92256 /* LR.swift */,
-				46D73A821AE9783F00C92256 /* Point.swift */,
-				46D73A831AE9783F00C92256 /* Polygon.swift */,
-				46D73A841AE9783F00C92256 /* Rectangle.swift */,
-				46D73A851AE9783F00C92256 /* selectEdgesForSitePoint.swift */,
-				46D73A861AE9783F00C92256 /* selectNonIntersectingEdges.swift */,
-				46D73A871AE9783F00C92256 /* Site.swift */,
-				46D73A881AE9783F00C92256 /* SiteList.swift */,
-				46D73A891AE9783F00C92256 /* Triangle.swift */,
-				46D73A8A1AE9783F00C92256 /* Vertex.swift */,
-				46D73A8B1AE9783F00C92256 /* VisibleLineSegments.swift */,
-				46D73A8C1AE9783F00C92256 /* Voronoi.swift */,
-				46D73A8D1AE9783F00C92256 /* Winding.swift */,
+				46CB2A471AE97C8300B29FF7 /* Delaunay */,
 				46D73A5D1AE977FF00C92256 /* Supporting Files */,
 			);
 			path = Delaunay;
@@ -784,6 +808,7 @@
 				46D73A721AE977FF00C92256 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		46D73A731AE977FF00C92256 /* Build configuration list for PBXNativeTarget "DelaunayTests" */ = {
 			isa = XCConfigurationList;
@@ -792,6 +817,7 @@
 				46D73A751AE977FF00C92256 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		46D73ABE1AE9784D00C92256 /* Build configuration list for PBXNativeTarget "DelaunayiOS" */ = {
 			isa = XCConfigurationList;
@@ -800,6 +826,7 @@
 				46D73AC01AE9784D00C92256 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		46D73AC11AE9784D00C92256 /* Build configuration list for PBXNativeTarget "DelaunayiOSTests" */ = {
 			isa = XCConfigurationList;
@@ -808,6 +835,7 @@
 				46D73AC31AE9784D00C92256 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

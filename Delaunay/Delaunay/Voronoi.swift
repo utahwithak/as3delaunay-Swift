@@ -16,7 +16,7 @@ public class Voronoi
 {
     private var sites = SiteList();
     private var sitesIndexedByLocation = [Point:Site]();
-    private var triangles = [Triangle]()
+    public var triangles = [Triangle]()
     private var edges = [Edge]()
     
     // TODO generalize this so it doesn't have to be a rectangle;
@@ -41,7 +41,7 @@ public class Voronoi
         sitesIndexedByLocation.removeAll(keepCapacity: true)
     }
     
-    public init(points:[Point], colors:[UInt]?, plotBounds:Rectangle)
+    public init(points:[Point], colors:[UInt]?, plotBounds:Rectangle, generateTriangles:Bool = false)
     {
         addSites(points, colors: colors);
         self.plotBounds = plotBounds;
@@ -191,7 +191,7 @@ public class Voronoi
         return sites.siteCoords();
     }
     
-    private func fortunesAlgorithm()
+    private func fortunesAlgorithm(generateTriangles:Bool = false)
     {
         var newSite:Site?, bottomSite:Site, topSite:Site, tempSite:Site;
         var v:Vertex
@@ -304,7 +304,9 @@ public class Voronoi
                 topSite = rightRegion(rbnd)!;
                 // these three sites define a Delaunay triangle
                 // (not actually using these for anything...)
-                //_triangles.push(new Triangle(bottomSite, topSite, rightRegion(lbnd)));
+                if generateTriangles{
+                    triangles.append( Triangle(a: bottomSite, b: topSite, c: rightRegion(lbnd)!));
+                }
                 
                 v = lbnd.vertex!;
                 v.setIndex();

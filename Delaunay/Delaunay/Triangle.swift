@@ -1,7 +1,7 @@
 import Foundation
 public final class Triangle
 {
-    var sites:[Site];
+    public var sites:[Site];
     
     public init(a:Site, b:Site, c:Site)
     {
