@@ -120,7 +120,6 @@ public final class Edge
     public func voronoiEdge()->LineSegment
     {
         if (!visible){
-            println("ERROR!");
             return LineSegment();
         }
         return  LineSegment(p0:clippedVertices[LR.LEFT]!, p1:clippedVertices[LR.RIGHT]!);

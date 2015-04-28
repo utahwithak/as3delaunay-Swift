@@ -17,7 +17,7 @@ public class Voronoi
     private var sites = SiteList();
     private var sitesIndexedByLocation = [Point:Site]();
     public var triangles = [Triangle]()
-    private var edges = [Edge]()
+    public var edges = [Edge]()
     
     // TODO generalize this so it doesn't have to be a rectangle;
     // then we can make the fractal voronois-within-voronois

@@ -8,6 +8,8 @@
 
 import Foundation
 public class Point:Printable{
+    public static let zeroPoint = {return Point(x:0,y:0)}()
+    
     public var x:Double
     public var y:Double
     public init(x:Double, y:Double){
@@ -19,6 +21,20 @@ public class Point:Printable{
         let xstr = String(format:"%.2f",x)
         let ystr = String(format:"%.2f",y)
         return "(\(xstr), \(ystr))"
+    }
+    
+    public var length:Double{
+        return Point.distance(self, Point.zeroPoint)
+    }
+    public func distance(p:Point)->Double{
+        return Point.distance(self, p)
+    }
+    
+    public static func interpolate(p1:Point, p2:Point, t:Double)->Point{
+        let dx = (p2.x - p1.x) * t
+        let dy = (p2.y - p1.y) * t
+        return Point(x: p1.x + dx, y: p1.y + dy)
+
     }
 }
 

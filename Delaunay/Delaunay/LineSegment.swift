@@ -26,7 +26,6 @@ public class LineSegment{
         self.p1 = p1;
     }
     public init(){
-        println("THIS IS NOT GOOD...")
         p0 = nil
         p1 = nil
     }
