@@ -45,7 +45,7 @@ public final class Vertex: ICoord{
     
     public func setIndex()
     {
-        vertexIndex = Vertex.nvertices++;
+        vertexIndex = Vertex.nvertices + 1;
     }
     
     public func toString()->String

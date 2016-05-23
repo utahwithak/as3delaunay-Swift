@@ -104,7 +104,7 @@ public final class EdgeList{
         var halfEdge = getHash(bucket);
         if(halfEdge == nil)
         {
-            for(var i = 1; true ; ++i)
+            for i in 1 ..< 1
             {
                 if let h = getHash(bucket - i){
                     halfEdge = h
@@ -118,14 +118,14 @@ public final class EdgeList{
         }
         /* Now search linear list of halfedges for the correct one */
         if (halfEdge === leftEnd  || (halfEdge !== rightEnd && halfEdge!.isLeftOf(p))){
-            do{
+            repeat{
                 halfEdge = halfEdge!.edgeListRightNeighbor;
             }
             while (halfEdge !== rightEnd && halfEdge!.isLeftOf(p));
             halfEdge = halfEdge!.edgeListLeftNeighbor;
         }
         else {
-            do{
+            repeat{
                 halfEdge = halfEdge!.edgeListLeftNeighbor;
             }
             while (halfEdge !== leftEnd && !halfEdge!.isLeftOf(p));
@@ -146,7 +146,7 @@ public final class EdgeList{
         {
             return nil;
         }
-        var halfEdge = hash[b];
+        let halfEdge = hash[b];
         if (halfEdge != nil && halfEdge!.edge === Edge.DELETED)
         {
             /* Hash table points to deleted halfedge.  Patch as necessary. */

@@ -25,7 +25,7 @@ public class Voronoi
     
     public func dispose()
     {
-        var i:Int, n:Int;
+        //var i:Int, n:Int;
         sites.dispose();
         for tri in triangles{
             tri.dispose()
@@ -50,8 +50,8 @@ public class Voronoi
     
     private func addSites(points:[Point], colors:[UInt]?)
     {
-        var length = points.count;
-        for (var i = 0; i < length; ++i)
+        let length = points.count;
+        for i in 0 ..< length
         {
             addSite(points[i], color: colors != nil ? colors![i] : 0, index: i);
         }
@@ -59,8 +59,8 @@ public class Voronoi
     
     private func addSite(p:Point, color:UInt, index:Int)
     {
-        var weight = Double(random() * 100);
-        var site:Site = Site.create(p, index: index, weight: weight, color: color);
+        let weight = Double(random() * 100);
+        let site:Site = Site.create(p, index: index, weight: weight, color: color);
         sites.push(site);
         sitesIndexedByLocation[p] = site;
     }
@@ -80,12 +80,12 @@ public class Voronoi
     public func neighborSitesForSite(coord:Point)->[Point]
     {
         var points = [Point]();
-        var site = sitesIndexedByLocation[coord];
+        let site = sitesIndexedByLocation[coord];
         if (site == nil)
         {
             return points;
         }
-        var sites = site!.neighborSites();
+        let sites = site!.neighborSites();
         for neighbor in sites
         {
             points.append(neighbor.coord);
@@ -100,12 +100,12 @@ public class Voronoi
     
     public func voronoiBoundaryForSite(coord:Point)->[LineSegment]
     {
-        return visibleLineSegments(selectEdgesForSitePoint(coord, edges));
+        return visibleLineSegments(selectEdgesForSitePoint(coord, edgesToTest: edges));
     }
     
     public func delaunayLinesForSite(coord:Point)->[LineSegment]
     {
-        return delaunayLinesForEdges(selectEdgesForSitePoint(coord, edges));
+        return delaunayLinesForEdges(selectEdgesForSitePoint(coord, edgesToTest: edges));
     }
     
     public func voronoiDiagram()->[LineSegment]
@@ -140,14 +140,14 @@ public class Voronoi
             return points;
         }
         
-        var reorderer = EdgeReorderer(origEdges: hullEdges, criterion: .Site);
+        let reorderer = EdgeReorderer(origEdges: hullEdges, criterion: .Site);
         hullEdges = reorderer.edges;
         let orientations = reorderer.edgeOrientations;
         reorderer.dispose();
         
         var orientation:LR;
         
-        var n:Int = hullEdges.count;
+        let n:Int = hullEdges.count;
         for i in 0..<n{
             let edge = hullEdges[i];
             orientation = orientations[i];
@@ -159,7 +159,7 @@ public class Voronoi
     public func spanningTree(type:SpanningType = .Minimum/*, keepOutMask:BitmapData = nil*/) -> [LineSegment]
     {
         let edges = selectNonIntersectingEdges(/*keepOutMask,*/self.edges);
-        var segments:[LineSegment] = delaunayLinesForEdges(edges);
+        let segments:[LineSegment] = delaunayLinesForEdges(edges);
         return Kruskal(segments, type: type);
     }
     

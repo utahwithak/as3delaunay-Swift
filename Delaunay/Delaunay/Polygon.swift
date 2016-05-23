@@ -13,7 +13,7 @@ public class Polygon
     }
 
     public func winding()->Winding{
-        var sDoubleArea = signedDoubleArea();
+        let sDoubleArea = signedDoubleArea();
         if (sDoubleArea < 0)
         {
             return Winding.CLOCKWISE;
@@ -26,7 +26,7 @@ public class Polygon
     }
 
     private func signedDoubleArea()->Double{
-        var n = vertices.count;
+        let n = vertices.count;
         var signedDoubleArea:Double = 0;
     
         for i in 0..<n{

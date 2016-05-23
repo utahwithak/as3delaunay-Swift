@@ -21,7 +21,7 @@ public class HalfedgePriorityQueue // also known as heap
     public func dispose()
     {
         // get rid of dummies
-        for (var i:Int = 0; i < hashsize; ++i)
+        for i:Int in 0 ..< hashsize
         {
             if let edge = hash[i]{
                 edge.dispose();
@@ -33,13 +33,11 @@ public class HalfedgePriorityQueue // also known as heap
 
     private func initialize()
     {
-        var i:Int;
-    
         count = 0;
         minBucket = 0;
         hash = [Halfedge?](count:hashsize, repeatedValue:nil);
         // dummy Halfedge at the top of each hash
-        for (i = 0; i < hashsize; ++i)
+        for i:Int in 0 ..< hashsize
         {
             hash[i] = Halfedge.createDummy();
             hash[i]!.nextInPriorityQueue = nil;
@@ -49,7 +47,7 @@ public class HalfedgePriorityQueue // also known as heap
     public func insert(halfEdge:Halfedge)
     {
         var previous:Halfedge?, next:Halfedge?;
-        var insertionBucket = bucket(halfEdge);
+        let insertionBucket = bucket(halfEdge);
         if (insertionBucket < minBucket)
         {
             minBucket = insertionBucket;
@@ -63,13 +61,13 @@ public class HalfedgePriorityQueue // also known as heap
         }
         halfEdge.nextInPriorityQueue = previous!.nextInPriorityQueue;
         previous!.nextInPriorityQueue = halfEdge;
-        ++count;
+        count += 1;
     }
 
     public func remove(halfEdge:Halfedge)
     {
         var previous:Halfedge;
-        var removalBucket:Int = bucket(halfEdge);
+        let removalBucket:Int = bucket(halfEdge);
         
         if (halfEdge.vertex != nil)
         {
@@ -79,7 +77,7 @@ public class HalfedgePriorityQueue // also known as heap
                 previous = previous.nextInPriorityQueue!;
             }
             previous.nextInPriorityQueue = halfEdge.nextInPriorityQueue;
-            count--;
+            count -= 1;
             halfEdge.vertex = nil;
             halfEdge.nextInPriorityQueue = nil;
             halfEdge.dispose();
@@ -112,7 +110,7 @@ public class HalfedgePriorityQueue // also known as heap
     {
         while (minBucket < hashsize - 1 && isEmpty(minBucket))
         {
-            ++minBucket;
+            minBucket += 1;
         }
     }
 
@@ -128,7 +126,7 @@ public class HalfedgePriorityQueue // also known as heap
     public func min()->Point
     {
         adjustMinBucket();
-        var answer:Halfedge = hash[minBucket]!.nextInPriorityQueue!;
+        let answer:Halfedge = hash[minBucket]!.nextInPriorityQueue!;
         return Point(x:answer.vertex!.x,y: answer.ystar);
     }
 
@@ -145,7 +143,7 @@ public class HalfedgePriorityQueue // also known as heap
         answer = hash[minBucket]!.nextInPriorityQueue!;
         
         hash[minBucket]!.nextInPriorityQueue = answer.nextInPriorityQueue;
-        count--;
+        count -= 1;
         answer.nextInPriorityQueue = nil;
         
         return answer;

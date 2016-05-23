@@ -109,7 +109,7 @@ public final class SiteList:IDisposable
 			var circles = [Circle]();
             for site in sites{
 				var radius:Double = 0;
-				var nearestEdge:Edge = site.nearestEdge();
+				let nearestEdge:Edge = site.nearestEdge();
 				
                 if(!nearestEdge.isPartOfConvexHull()){
                     radius = nearestEdge.sitesDistance() * 0.5;

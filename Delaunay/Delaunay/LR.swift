@@ -1,6 +1,6 @@
 import Foundation
 
-public enum LR:Printable{
+public enum LR:CustomStringConvertible{
     case LEFT
     case RIGHT
     case Unknown

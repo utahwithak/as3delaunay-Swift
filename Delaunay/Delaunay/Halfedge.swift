@@ -1,6 +1,6 @@
 import Foundation
 
-public final class Halfedge:Printable{
+public final class Halfedge:CustomStringConvertible{
 		private static var pool:[Halfedge] = [Halfedge]();
     
 		public static func create(edge:Edge?, lr:LR)->Halfedge
