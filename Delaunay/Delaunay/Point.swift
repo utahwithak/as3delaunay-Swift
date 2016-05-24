@@ -7,7 +7,7 @@
 //
 
 import Foundation
-public class Point:Printable{
+public class Point:CustomStringConvertible{
     public static let zeroPoint = {return Point(x:0,y:0)}()
     
     public var x:Double

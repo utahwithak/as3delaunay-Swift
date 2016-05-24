@@ -168,8 +168,8 @@ public final class Edge
     //
     public static func compareSitesDistancesMAX(edge0:Edge, edge1:Edge)->Int
     {
-        var length0:Double = edge0.sitesDistance();
-        var length1:Double = edge1.sitesDistance();
+        let length0:Double = edge0.sitesDistance();
+        let length1:Double = edge1.sitesDistance();
         if (length0 < length1)
         {
             return 1;
@@ -198,18 +198,19 @@ public final class Edge
 
     var leftSite:Site!
     var rightSite:Site!
-    
+    var tempSite:Site!
     func site(leftRight:LR)->Site
     {
         switch (leftRight)
         {
         case .LEFT:
-            return leftSite
+            tempSite = leftSite
         case .RIGHT:
-            return rightSite
+            tempSite = rightSite
         case .Unknown:
             assert(false, "INVALID SITE!")
         }
+        return tempSite
     }
     //
     private let edgeIndex:Int;
@@ -231,7 +232,7 @@ public final class Edge
     
     public init()
     {
-        edgeIndex = Edge.nedges++;
+        edgeIndex = Edge.nedges + 1;
         refresh();
     }
     //

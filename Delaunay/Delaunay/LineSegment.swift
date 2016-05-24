@@ -2,8 +2,8 @@ import Foundation
 
 public class LineSegment{
     public static func compareLengths_MAX(segment0:LineSegment, segment1:LineSegment) -> Int {
-        var length0 = Point.distance(segment0.p0, segment0.p1);
-        var length1 = Point.distance(segment1.p0, segment1.p1);
+        let length0 = Point.distance(segment0.p0, segment0.p1);
+        let length1 = Point.distance(segment1.p0, segment1.p1);
         if length0 < length1{
             return 1
         }

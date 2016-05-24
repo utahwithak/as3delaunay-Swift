@@ -1,6 +1,6 @@
 import Foundation
 
-public class Circle:Printable{
+public class Circle:CustomStringConvertible{
     public let center:Point;
     public let radius:Double;
     

@@ -1,6 +1,6 @@
 import Foundation
 
-public enum Winding:Printable{
+public enum Winding:CustomStringConvertible{
 		case CLOCKWISE
 		case COUNTERCLOCKWISE
 		case NONE

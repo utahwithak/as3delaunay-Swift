@@ -1,6 +1,6 @@
 import Foundation
 
-public final class Site:ICoord,IDisposable,Printable{
+public final class Site:ICoord,IDisposable,CustomStringConvertible{
     private static var pool:[Site] = [Site]();
     public static func create(p:Point, index:Int, weight:Double, color:UInt)->Site
     {
@@ -16,7 +16,7 @@ public final class Site:ICoord,IDisposable,Printable{
     
     static func sortSites(inout sites:[Site])
     {
-        sites.sort(Site.compare);
+        sites.sortInPlace(Site.compare);
     }
     //
     //		/**
@@ -29,7 +29,7 @@ public final class Site:ICoord,IDisposable,Printable{
     //		 */
     private static func compare(s1:Site, s2:Site) -> Bool
     {
-        var returnValue:Int = Voronoi.compareByYThenX(s1, s2: s2);
+        let returnValue:Int = Voronoi.compareByYThenX(s1, s2: s2);
         
         // swap _siteIndex values if necessary to match new ordering:
         var tempIndex:Int;
@@ -126,7 +126,7 @@ public final class Site:ICoord,IDisposable,Printable{
     
     func nearestEdge()->Edge
     {
-        edges.sort{
+        edges.sortInPlace{
             return Edge.compareSitesDistances($0,edge1: $1)<0
         };
         return edges[0];
@@ -187,7 +187,7 @@ public final class Site:ICoord,IDisposable,Printable{
     private func reorderEdges()
     {
         //trace("_edges:", _edges);
-        var reorderer:EdgeReorderer = EdgeReorderer(origEdges: edges, criterion: .Vertex);
+        let reorderer:EdgeReorderer = EdgeReorderer(origEdges: edges, criterion: .Vertex);
         edges = reorderer.edges;
         //trace("reordered:", _edges);
         edgeOrientations = reorderer.edgeOrientations;
@@ -197,12 +197,12 @@ public final class Site:ICoord,IDisposable,Printable{
     private func clipToBounds(bounds:Rectangle) -> [Point]
     {
         var points:[Point] = [Point]();
-        var n:Int = edges.count;
+        let n:Int = edges.count;
         var i:Int = 0;
         var edge:Edge;
         while (i < n && (edges[i].visible == false))
         {
-            ++i;
+            i += 1;
         }
         
         if (i == n)
@@ -211,11 +211,11 @@ public final class Site:ICoord,IDisposable,Printable{
             return [Point]();
         }
         edge = edges[i];
-        var orientation:LR = edgeOrientations[i];
+        let orientation:LR = edgeOrientations[i];
         points.append(edge.clippedVertices[orientation]!);
         points.append(edge.clippedVertices[LR.other(orientation)]!);
         
-        for (var j:Int = i + 1; j < n; ++j)
+        for j:Int in i + 1 ..< n
         {
             edge = edges[j];
             if (edge.visible == false)
@@ -232,11 +232,11 @@ public final class Site:ICoord,IDisposable,Printable{
     
     private func connect(inout points:[Point], j:Int, bounds:Rectangle, closingUp:Bool = false)
     {
-        var rightPoint:Point = points[points.count - 1];
-        var newEdge:Edge = edges[j] as Edge;
-        var newOrientation:LR = edgeOrientations[j];
+        let rightPoint:Point = points[points.count - 1];
+        let newEdge:Edge = edges[j] as Edge;
+        let newOrientation:LR = edgeOrientations[j];
         // the point that  must be connected to rightPoint:
-        var newPoint:Point = newEdge.clippedVertices[newOrientation]!;
+        let newPoint:Point = newEdge.clippedVertices[newOrientation]!;
         if (!Site.closeEnough(rightPoint, p1: newPoint))
         {
             // The points do not coincide, so they must have been clipped at the bounds;
@@ -249,8 +249,8 @@ public final class Site:ICoord,IDisposable,Printable{
                 // (NOTE this will not be correct if the region should take up more than
                 // half of the bounds rect, for then we will have gone the wrong way
                 // around the bounds and included the smaller part rather than the larger)
-                var rightCheck:Int = BoundsCheck.check(rightPoint, bounds: bounds);
-                var newCheck:Int = BoundsCheck.check(newPoint, bounds: bounds);
+                let rightCheck:Int = BoundsCheck.check(rightPoint, bounds: bounds);
+                let newCheck:Int = BoundsCheck.check(newPoint, bounds: bounds);
                 var px:Double, py:Double;
                 if (rightCheck & BoundsCheck.RIGHT != 0)
                 {
@@ -368,7 +368,7 @@ public final class Site:ICoord,IDisposable,Printable{
             }
             points.append(newPoint);
         }
-        var newRightPoint:Point = newEdge.clippedVertices[LR.other(newOrientation)]!;
+        let newRightPoint:Point = newEdge.clippedVertices[LR.other(newOrientation)]!;
         if (!Site.closeEnough(points[0], p1: newRightPoint))
         {
             points.append(newRightPoint);

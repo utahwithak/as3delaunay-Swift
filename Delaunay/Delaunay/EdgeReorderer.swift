@@ -26,9 +26,9 @@ public class EdgeReorderer{
     
     private func reorderEdges(origEdges:[Edge], criterion:Criteria)->[Edge]
     {
-        var i:Int = 0;
-        var j:Int;
-        var n:Int = origEdges.count;
+        let i:Int = 0;
+        //var j:Int;
+        let n:Int = origEdges.count;
         // we're going to reorder the edges in order of traversal
         var done = [Bool](count:n, repeatedValue:false);
         var nDone = 0;
@@ -48,19 +48,19 @@ public class EdgeReorderer{
         }
         
         done[i] = true;
-        ++nDone;
+        nDone += 1;
         
         while (nDone < n)
         {
-            for (i = 1; i < n; ++i)
+            for i:Int in 0 ..< n
             {
                 if (done[i])
                 {
                     continue;
                 }
                 edge = origEdges[i];
-                var leftPoint:ICoord? = useVert ? edge.leftVertex : edge.leftSite;
-                var rightPoint:ICoord? = useVert ? edge.rightVertex : edge.rightSite;
+                let leftPoint:ICoord? = useVert ? edge.leftVertex : edge.leftSite;
+                let rightPoint:ICoord? = useVert ? edge.rightVertex : edge.rightSite;
                 if (leftPoint === Vertex.VERTEX_AT_INFINITY || rightPoint === Vertex.VERTEX_AT_INFINITY)
                 {
                     return [Edge]();
@@ -95,7 +95,7 @@ public class EdgeReorderer{
                 }
                 if (done[i])
                 {
-                    ++nDone;
+                    nDone += 1;
                 }
             }
         }
