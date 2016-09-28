@@ -1,9 +1,9 @@
 public final class SiteList:IDisposable
 {
-		private var sites:[Site];
-		private var currentIndex:Int = 0;
+		fileprivate var sites:[Site];
+		fileprivate var currentIndex:Int = 0;
 
-		private var sorted:Bool;
+		fileprivate var sorted:Bool;
 		
 		public init()
 		{
@@ -17,11 +17,12 @@ public final class SiteList:IDisposable
 				{
 					site.dispose();
 				}
-				sites.removeAll(keepCapacity: true);
+				sites.removeAll(keepingCapacity: true);
 
 		}
 //
-		public func push(site:Site)->UInt
+        @discardableResult
+		public func push(_ site:Site)->UInt
 		{
 			sorted = false;
 			sites.append(site);
@@ -39,7 +40,11 @@ public final class SiteList:IDisposable
 
             if(currentIndex < sites.count)
 			{
-				return sites[currentIndex++];
+
+				let toreturn =  sites[currentIndex]
+                currentIndex += 1
+                return toreturn
+
 			}
 			else
 			{
@@ -109,7 +114,7 @@ public final class SiteList:IDisposable
 			var circles = [Circle]();
             for site in sites{
 				var radius:Double = 0;
-				var nearestEdge:Edge = site.nearestEdge();
+				let nearestEdge:Edge = site.nearestEdge();
 				
                 if(!nearestEdge.isPartOfConvexHull()){
                     radius = nearestEdge.sitesDistance() * 0.5;
@@ -119,7 +124,7 @@ public final class SiteList:IDisposable
 			return circles;
 		}
 
-		public func regions(plotBounds:Rectangle)->[[Point]]
+		public func regions(_ plotBounds:Rectangle)->[[Point]]
 		{
 			var regions:[[Point]] = [[Point]]();
 			for site in sites{
@@ -136,7 +141,7 @@ public final class SiteList:IDisposable
 		 * @return coordinates of nearest Site to (x, y)
 		 * 
 		 */
-		public func nearestSitePoint(/*proximityMap:BitmapData,*/ x:Double, y:Double)->Point?{
+		public func nearestSitePoint(/*proximityMap:BitmapData,*/ _ x:Double, y:Double)->Point?{
 //			var index:uint = proximityMap.getPixel(x, y);
 //			if (index > sites.count - 1)
 //			{

@@ -1,14 +1,14 @@
 import Foundation
 
-public class HalfedgePriorityQueue // also known as heap
+open class HalfedgePriorityQueue // also known as heap
 {
-    private var hash = [Halfedge?]();
-    private var count:Int = 0;
-    private var minBucket:Int = 0;
-    private var hashsize:Int = 0;
+    fileprivate var hash = [Halfedge?]();
+    fileprivate var count:Int = 0;
+    fileprivate var minBucket:Int = 0;
+    fileprivate var hashsize:Int = 0;
     
-    private var ymin:Double = 0;
-    private var deltay:Double = 0;
+    fileprivate var ymin:Double = 0;
+    fileprivate var deltay:Double = 0;
 
     public init(ymin:Double, deltay:Double, sqrtnsites:Int)
     {
@@ -18,38 +18,34 @@ public class HalfedgePriorityQueue // also known as heap
         initialize();
     }
 
-    public func dispose()
+    open func dispose()
     {
         // get rid of dummies
-        for (var i:Int = 0; i < hashsize; ++i)
-        {
+        for i in 0..<hashsize {
             if let edge = hash[i]{
                 edge.dispose();
             }
             hash[i] = nil;
         }
-        hash.removeAll(keepCapacity: false);
+        hash.removeAll(keepingCapacity: false);
     }
 
-    private func initialize()
-    {
-        var i:Int;
-    
+    fileprivate func initialize()
+    {    
         count = 0;
         minBucket = 0;
-        hash = [Halfedge?](count:hashsize, repeatedValue:nil);
+        hash = [Halfedge?](repeating: nil, count: hashsize);
         // dummy Halfedge at the top of each hash
-        for (i = 0; i < hashsize; ++i)
-        {
+        for i in 0..<hashsize {
             hash[i] = Halfedge.createDummy();
             hash[i]!.nextInPriorityQueue = nil;
         }
     }
 
-    public func insert(halfEdge:Halfedge)
+    open func insert(_ halfEdge:Halfedge)
     {
         var previous:Halfedge?, next:Halfedge?;
-        var insertionBucket = bucket(halfEdge);
+        let insertionBucket = bucket(halfEdge);
         if (insertionBucket < minBucket)
         {
             minBucket = insertionBucket;
@@ -63,13 +59,13 @@ public class HalfedgePriorityQueue // also known as heap
         }
         halfEdge.nextInPriorityQueue = previous!.nextInPriorityQueue;
         previous!.nextInPriorityQueue = halfEdge;
-        ++count;
+        count += 1;
     }
 
-    public func remove(halfEdge:Halfedge)
+    open func remove(_ halfEdge:Halfedge)
     {
         var previous:Halfedge;
-        var removalBucket:Int = bucket(halfEdge);
+        let removalBucket:Int = bucket(halfEdge);
         
         if (halfEdge.vertex != nil)
         {
@@ -79,14 +75,14 @@ public class HalfedgePriorityQueue // also known as heap
                 previous = previous.nextInPriorityQueue!;
             }
             previous.nextInPriorityQueue = halfEdge.nextInPriorityQueue;
-            count--;
+            count -= 1;
             halfEdge.vertex = nil;
             halfEdge.nextInPriorityQueue = nil;
             halfEdge.dispose();
         }
     }
 
-    private func bucket(halfEdge:Halfedge)->Int
+    fileprivate func bucket(_ halfEdge:Halfedge)->Int
     {
         var theBucket:Int = Int((halfEdge.ystar - ymin) / deltay) * hashsize;
         if (theBucket < 0){
@@ -99,7 +95,7 @@ public class HalfedgePriorityQueue // also known as heap
         return theBucket;
     }
 
-    private func isEmpty(bucket:Int)->Bool
+    fileprivate func isEmpty(_ bucket:Int)->Bool
     {
         return (hash[bucket]!.nextInPriorityQueue == nil);
     }
@@ -108,15 +104,15 @@ public class HalfedgePriorityQueue // also known as heap
      * move minBucket until it contains an actual Halfedge (not just the dummy at the top); 
      * 
      */
-    private func adjustMinBucket()
+    fileprivate func adjustMinBucket()
     {
         while (minBucket < hashsize - 1 && isEmpty(minBucket))
         {
-            ++minBucket;
+            minBucket += 1;
         }
     }
 
-    public func empty()->Bool
+    open func empty()->Bool
     {
         return count == 0;
     }
@@ -125,10 +121,10 @@ public class HalfedgePriorityQueue // also known as heap
      * @return coordinates of the Halfedge's vertex in V*, the transformed Voronoi diagram
      * 
      */
-    public func min()->Point
+    open func min()->Point
     {
         adjustMinBucket();
-        var answer:Halfedge = hash[minBucket]!.nextInPriorityQueue!;
+        let answer:Halfedge = hash[minBucket]!.nextInPriorityQueue!;
         return Point(x:answer.vertex!.x,y: answer.ystar);
     }
 
@@ -137,7 +133,7 @@ public class HalfedgePriorityQueue // also known as heap
      * @return 
      * 
      */
-    public func extractMin()->Halfedge
+    open func extractMin()->Halfedge
     {
         var answer:Halfedge;
     
@@ -145,7 +141,7 @@ public class HalfedgePriorityQueue // also known as heap
         answer = hash[minBucket]!.nextInPriorityQueue!;
         
         hash[minBucket]!.nextInPriorityQueue = answer.nextInPriorityQueue;
-        count--;
+        count -= 1;
         answer.nextInPriorityQueue = nil;
         
         return answer;

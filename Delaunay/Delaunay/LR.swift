@@ -1,21 +1,21 @@
 import Foundation
 
-public enum LR:Printable{
-    case LEFT
-    case RIGHT
-    case Unknown
-    public static func other(leftRight:LR)->LR
+public enum LR:CustomStringConvertible{
+    case left
+    case right
+    case unknown
+    public static func other(_ leftRight:LR)->LR
 	{
-        return leftRight == LEFT ? RIGHT : LEFT;
+        return leftRight == left ? right : left;
     }
     
     public var description:String{
         switch(self){
-        case LEFT:
+        case .left:
             return "Left"
-        case RIGHT:
+        case .right:
             return "Right"
-        case .Unknown:
+        case .unknown:
             return "UNKNOWN!"
         }
     }

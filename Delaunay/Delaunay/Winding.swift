@@ -1,17 +1,17 @@
 import Foundation
 
-public enum Winding:Printable{
-		case CLOCKWISE
-		case COUNTERCLOCKWISE
-		case NONE
+public enum Winding:CustomStringConvertible{
+		case clockwise
+		case counterclockwise
+		case none
     
     public var description:String{
         switch(self){
-        case CLOCKWISE:
+        case .clockwise:
             return "CLOCKWISE"
-        case COUNTERCLOCKWISE:
+        case .counterclockwise:
             return "COUNTERCLOCKWISE"
-        case NONE:
+        case .none:
             return "NONE"
         }
     }

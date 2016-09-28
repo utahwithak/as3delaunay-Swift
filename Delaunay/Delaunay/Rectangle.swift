@@ -8,8 +8,8 @@
 
 import Foundation
 
-public class Rectangle{
-    public static let zeroRect = Rectangle(x: 0,y: 0,width: 0,height: 0)
+open class Rectangle{
+    open static let zeroRect = Rectangle(x: 0,y: 0,width: 0,height: 0)
     
     public init(x:Double, y:Double, width:Double, height:Double){
         self.x = x
@@ -27,35 +27,35 @@ public class Rectangle{
     
     
     
-    public var bottom:Double
+    open var bottom:Double
     {
         return x + height;
     }
     
-    public var left:Double
+    open var left:Double
     {
         return x;
     }
     
-    public var right:Double
+    open var right:Double
     {
         return x + width;
     }
     
-    public var top:Double
+    open var top:Double
     {
         return y;
     }
-    public var minX:Double{
+    open var minX:Double{
         return x
     }
-    public var maxX:Double{
+    open var maxX:Double{
         return x + width
     }
-    public var minY:Double{
+    open var minY:Double{
         return y
     }
-    public var maxY:Double{
+    open var maxY:Double{
         return y + height
     }
     

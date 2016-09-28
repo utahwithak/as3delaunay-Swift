@@ -6,11 +6,11 @@ import Foundation
 */
 
 public enum SpanningType{
-    case Minimum
-    case Maximum
+    case minimum
+    case maximum
 }
 
-public func Kruskal(lineSegs:[LineSegment], type:SpanningType = .Minimum)->[LineSegment]
+public func Kruskal(_ lineSegs:[LineSegment], type:SpanningType = .minimum)->[LineSegment]
 {
     var lineSegments = lineSegs
     var nodes = [Point:Node]()
@@ -21,15 +21,15 @@ public func Kruskal(lineSegs:[LineSegment], type:SpanningType = .Minimum)->[Line
     {
         // note that the compare funcs are the reverse of what you'd expect
         // because (see below) we traverse the lineSegments in reverse order for speed
-        case .Maximum:
+        case .maximum:
             lineSegments.sort{ return LineSegment.compareLengths($0,edge1: $1) < 0;}
         default:
-            lineSegments.sort{return LineSegment.compareLengths_MAX($0,segment1: $1) < 0;}
+            lineSegments.sort{ return LineSegment.compareLengths_MAX($0,segment1: $1) < 0;}
     }
 
-    for (var i:Int = lineSegments.count - 1; i > -1; i--)
+    for i in (0...(lineSegments.count - 1)).reversed()
     {
-        var lineSegment:LineSegment = lineSegments[i];
+        let lineSegment:LineSegment = lineSegments[i];
         
         var node0:Node? = nodes[lineSegment.p0];
         var rootOfSet0:Node;
@@ -70,8 +70,8 @@ public func Kruskal(lineSegs:[LineSegment], type:SpanningType = .Minimum)->[Line
             mst.append(lineSegment);
             
             // merge the two sets:
-            var treeSize0:Int = rootOfSet0.treeSize;
-            var treeSize1:Int = rootOfSet1.treeSize;
+            let treeSize0:Int = rootOfSet0.treeSize;
+            let treeSize1:Int = rootOfSet1.treeSize;
             if (treeSize0 >= treeSize1)
             {
                 // set0 absorbs set1:
@@ -87,7 +87,7 @@ public func Kruskal(lineSegs:[LineSegment], type:SpanningType = .Minimum)->[Line
         }
     }
     
-    for (point,node) in nodes{
+    for (_ , node) in nodes{
         nodePool.append(node);
     }
 
@@ -95,7 +95,7 @@ public func Kruskal(lineSegs:[LineSegment], type:SpanningType = .Minimum)->[Line
 
 }
 
-func find(node:Node)->Node
+func find(_ node:Node)->Node
 {
 	if (node.parent === node)
 	{
@@ -103,7 +103,7 @@ func find(node:Node)->Node
 	}
 	else
 	{
-		var root = find(node.parent!);
+		let root = find(node.parent!);
 		// this line is just to speed up subsequent finds by keeping the tree depth low:
 		node.parent = root;
 		return root;

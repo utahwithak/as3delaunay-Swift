@@ -3,8 +3,8 @@ import Foundation
 public final class Vertex: ICoord{
     public static let VERTEX_AT_INFINITY:Vertex = Vertex( x: Double(Float.infinity),y: Double( Float.infinity));
     
-    private static var pool:[Vertex] = [Vertex]();
-    private static func create(x:Double, y:Double)->Vertex
+    fileprivate static var pool:[Vertex] = [Vertex]();
+    fileprivate static func create(_ x:Double, y:Double)->Vertex
     {
         
         if (x.isNaN || y.isNaN)
@@ -22,7 +22,7 @@ public final class Vertex: ICoord{
     }
     
     
-    private static var nvertices:Int = 0;
+    fileprivate static var nvertices:Int = 0;
     
     public var coord:Point!
     var vertexIndex:Int = 0;
@@ -31,8 +31,9 @@ public final class Vertex: ICoord{
     {
         refresh(x, y:y);
     }
-    
-    private func refresh(x:Double, y:Double)->Vertex
+
+    @discardableResult
+    fileprivate func refresh(_ x:Double, y:Double)->Vertex
     {
         coord = Point(x:x, y:y);
         return self;
@@ -45,7 +46,7 @@ public final class Vertex: ICoord{
     
     public func setIndex()
     {
-        vertexIndex = Vertex.nvertices++;
+        vertexIndex = Vertex.nvertices + 1;
     }
     
     public func toString()->String
@@ -61,7 +62,7 @@ public final class Vertex: ICoord{
     * @return
     *
     */
-    public static func intersect(halfedge0:Halfedge, halfedge1:Halfedge)->Vertex?
+    public static func intersect(_ halfedge0:Halfedge, halfedge1:Halfedge)->Vertex?
     {
         var edge0:Edge?, edge1:Edge?, edge:Edge;
         var halfedge:Halfedge;
@@ -100,8 +101,8 @@ public final class Vertex: ICoord{
             edge = edge1!;
         }
         rightOfSite = intersectionX >= edge.rightSite!.x;
-        if ((rightOfSite && halfedge.leftRight == LR.LEFT)
-            ||  (!rightOfSite && halfedge.leftRight == LR.RIGHT))
+        if ((rightOfSite && halfedge.leftRight == LR.left)
+            ||  (!rightOfSite && halfedge.leftRight == LR.right))
         {
             return nil;
         }

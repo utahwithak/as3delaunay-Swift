@@ -1,4 +1,4 @@
-func delaunayLinesForEdges(edges:[Edge])->[LineSegment]
+func delaunayLinesForEdges(_ edges:[Edge])->[LineSegment]
 {
     var segments = [LineSegment]();
     for edge in edges{

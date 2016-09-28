@@ -1,9 +1,9 @@
 import Foundation
 
-public class LineSegment{
-    public static func compareLengths_MAX(segment0:LineSegment, segment1:LineSegment) -> Int {
-        var length0 = Point.distance(segment0.p0, segment0.p1);
-        var length1 = Point.distance(segment1.p0, segment1.p1);
+open class LineSegment{
+    open static func compareLengths_MAX(_ segment0:LineSegment, segment1:LineSegment) -> Int {
+        let length0 = Point.distance(segment0.p0, segment0.p1);
+        let length1 = Point.distance(segment1.p0, segment1.p1);
         if length0 < length1{
             return 1
         }
@@ -13,12 +13,12 @@ public class LineSegment{
         return 0
     }
     
-    public static func compareLengths(edge0:LineSegment, edge1:LineSegment) -> Int{
+    open static func compareLengths(_ edge0:LineSegment, edge1:LineSegment) -> Int{
         return -1 * compareLengths_MAX(edge0, segment1: edge1);
     }
 
-    public let p0:Point!;
-    public let p1:Point!;
+    open let p0:Point!;
+    open let p1:Point!;
     
     public init(p0:Point, p1:Point)
     {

@@ -7,30 +7,30 @@
 //
 
 import Foundation
-public class Point:Printable{
-    public static let zeroPoint = {return Point(x:0,y:0)}()
+open class Point:CustomStringConvertible{
+    open static let zeroPoint = {return Point(x:0,y:0)}()
     
-    public var x:Double
-    public var y:Double
+    open var x:Double
+    open var y:Double
     public init(x:Double, y:Double){
         self.x = x;
         self.y = y
     }
     
-    public var description:String{
+    open var description:String{
         let xstr = String(format:"%.2f",x)
         let ystr = String(format:"%.2f",y)
         return "(\(xstr), \(ystr))"
     }
     
-    public var length:Double{
+    open var length:Double{
         return Point.distance(self, Point.zeroPoint)
     }
-    public func distance(p:Point)->Double{
+    open func distance(_ p:Point)->Double{
         return Point.distance(self, p)
     }
     
-    public static func interpolate(p1:Point, p2:Point, t:Double)->Point{
+    open static func interpolate(_ p1:Point, p2:Point, t:Double)->Point{
         let dx = (p2.x - p1.x) * t
         let dy = (p2.y - p1.y) * t
         return Point(x: p1.x + dx, y: p1.y + dy)
@@ -40,7 +40,7 @@ public class Point:Printable{
 
 
 extension Point :Hashable{
-    static func distance( lhs:Point, _ rhs:Point)->Double{
+    static func distance( _ lhs:Point, _ rhs:Point)->Double{
         let dx = lhs.x - rhs.x;
         let dy = lhs.y - rhs.y;
         return sqrt((dx * dx) + (dy * dy))

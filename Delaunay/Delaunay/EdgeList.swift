@@ -1,11 +1,11 @@
 import Foundation
 
 public final class EdgeList{
-    private let deltax:Double;
-    private let xmin:Double;
+    fileprivate let deltax:Double;
+    fileprivate let xmin:Double;
     
-    private let hashsize:Int;
-    private var hash:[Halfedge?];
+    fileprivate let hashsize:Int;
+    fileprivate var hash:[Halfedge?];
     
     public var leftEnd:Halfedge;
     public var rightEnd:Halfedge;
@@ -27,7 +27,7 @@ public final class EdgeList{
         {
             hash[i] = nil;
         }
-        hash.removeAll(keepCapacity: false)
+        hash.removeAll(keepingCapacity: false)
     }
     
     public init(xmin:Double, deltax:Double, sqrt_nsites:Int)
@@ -41,7 +41,7 @@ public final class EdgeList{
         leftEnd = Halfedge.createDummy();
         rightEnd = Halfedge.createDummy();
 
-        hash = [Halfedge?](count: hashsize, repeatedValue: nil)
+        hash = [Halfedge?](repeating: nil, count: hashsize)
         
         leftEnd.edgeListLeftNeighbor = nil;
         leftEnd.edgeListRightNeighbor = rightEnd;
@@ -60,7 +60,7 @@ public final class EdgeList{
     * @param newHalfedge
     *
     */
-    public func insert(lb:Halfedge, newHalfedge:Halfedge)
+    public func insert(_ lb:Halfedge, newHalfedge:Halfedge)
     {
         newHalfedge.edgeListLeftNeighbor = lb;
         newHalfedge.edgeListRightNeighbor = lb.edgeListRightNeighbor;
@@ -74,7 +74,7 @@ public final class EdgeList{
     * @param halfEdge
     *
     */
-    public func remove(halfEdge:Halfedge)
+    public func remove(_ halfEdge:Halfedge)
     {
         halfEdge.edgeListLeftNeighbor!.edgeListRightNeighbor = halfEdge.edgeListRightNeighbor;
         halfEdge.edgeListRightNeighbor!.edgeListLeftNeighbor = halfEdge.edgeListLeftNeighbor;
@@ -89,7 +89,7 @@ public final class EdgeList{
     * @return
     *
     */
-    public func edgeListLeftNeighbor(p:Point) -> Halfedge
+    public func edgeListLeftNeighbor(_ p:Point) -> Halfedge
     {
         /* Use hash table to get close to desired halfedge */
         var bucket = Int((p.x - xmin)/deltax) * hashsize;
@@ -104,7 +104,8 @@ public final class EdgeList{
         var halfEdge = getHash(bucket);
         if(halfEdge == nil)
         {
-            for(var i = 1; true ; ++i)
+            var i = 1
+            while (true)
             {
                 if let h = getHash(bucket - i){
                     halfEdge = h
@@ -114,18 +115,19 @@ public final class EdgeList{
                     halfEdge = h
                     break;
                 }
+                i += 1
             }
         }
         /* Now search linear list of halfedges for the correct one */
         if (halfEdge === leftEnd  || (halfEdge !== rightEnd && halfEdge!.isLeftOf(p))){
-            do{
+            repeat{
                 halfEdge = halfEdge!.edgeListRightNeighbor;
             }
             while (halfEdge !== rightEnd && halfEdge!.isLeftOf(p));
             halfEdge = halfEdge!.edgeListLeftNeighbor;
         }
         else {
-            do{
+            repeat{
                 halfEdge = halfEdge!.edgeListLeftNeighbor;
             }
             while (halfEdge !== leftEnd && !halfEdge!.isLeftOf(p));
@@ -140,13 +142,13 @@ public final class EdgeList{
     }
     
     /* Get entry from hash table, pruning any deleted nodes */
-    private func getHash(b:Int)->Halfedge?
+    fileprivate func getHash(_ b:Int)->Halfedge?
     {
         if (b < 0 || b >= hashsize)
         {
             return nil;
         }
-        var halfEdge = hash[b];
+        let halfEdge = hash[b];
         if (halfEdge != nil && halfEdge!.edge === Edge.DELETED)
         {
             /* Hash table points to deleted halfedge.  Patch as necessary. */

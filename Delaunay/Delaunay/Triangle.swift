@@ -10,7 +10,7 @@ public final class Triangle
     
     public func dispose()
     {
-        sites.removeAll(keepCapacity:true)
+        sites.removeAll(keepingCapacity:true)
     }
 
 }

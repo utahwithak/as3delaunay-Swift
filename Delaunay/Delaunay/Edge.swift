@@ -7,7 +7,7 @@ import Foundation
 */
 public final class Edge
 {
-    private static var pool = [Edge]()
+    fileprivate static var pool = [Edge]()
     /**
     * This is the only way to create a new Edge
     * @param site0
@@ -15,7 +15,7 @@ public final class Edge
     * @return
     *
     */
-    public static func createBisectingEdge(site0:Site, site1:Site)->Edge
+    public static func createBisectingEdge(_ site0:Site, site1:Site)->Edge
     {
         
         let dx = site1.x - site0.x;
@@ -56,7 +56,7 @@ public final class Edge
         return edge;
     }
     
-    private static func create()->Edge
+    fileprivate static func create()->Edge
     {
         var edge:Edge;
         if (pool.count > 0)
@@ -122,10 +122,10 @@ public final class Edge
         if (!visible){
             return LineSegment();
         }
-        return  LineSegment(p0:clippedVertices[LR.LEFT]!, p1:clippedVertices[LR.RIGHT]!);
+        return  LineSegment(p0:clippedVertices[LR.left]!, p1:clippedVertices[LR.right]!);
     }
     
-    private static var nedges:Int = 0;
+    fileprivate static var nedges:Int = 0;
     
     static let DELETED:Edge = Edge();
     
@@ -137,16 +137,16 @@ public final class Edge
     var leftVertex:Vertex? = nil;
     var rightVertex:Vertex? = nil;
     
-    func vertex(leftRight:LR)->Vertex
+    func vertex(_ leftRight:LR)->Vertex
     {
-        assert(leftRight != .Unknown, "INVALID SET VERT!")
+        assert(leftRight != .unknown, "INVALID SET VERT!")
 
-        return (leftRight == LR.LEFT) ? leftVertex! : rightVertex!;
+        return (leftRight == LR.left) ? leftVertex! : rightVertex!;
     }
-    func setVertex(leftRight:LR, v:Vertex)
+    func setVertex(_ leftRight:LR, v:Vertex)
     {
-        assert(leftRight != .Unknown, "INVALID SET VERT!")
-        if (leftRight == LR.LEFT)
+        assert(leftRight != .unknown, "INVALID SET VERT!")
+        if (leftRight == LR.left)
         {
             leftVertex = v;
         }
@@ -166,10 +166,10 @@ public final class Edge
         return Point.distance(leftSite!.coord, rightSite!.coord);
     }
     //
-    public static func compareSitesDistancesMAX(edge0:Edge, edge1:Edge)->Int
+    public static func compareSitesDistancesMAX(_ edge0:Edge, edge1:Edge)->Int
     {
-        var length0:Double = edge0.sitesDistance();
-        var length1:Double = edge1.sitesDistance();
+        let length0:Double = edge0.sitesDistance();
+        let length1:Double = edge1.sitesDistance();
         if (length0 < length1)
         {
             return 1;
@@ -181,7 +181,7 @@ public final class Edge
         return 0;
     }
     
-    public static func compareSitesDistances(edge0:Edge, edge1:Edge)->Int
+    public static func compareSitesDistances(_ edge0:Edge, edge1:Edge)->Int
     {
         return -1 * compareSitesDistancesMAX(edge0, edge1:edge1);
     }
@@ -199,20 +199,20 @@ public final class Edge
     var leftSite:Site!
     var rightSite:Site!
     
-    func site(leftRight:LR)->Site
+    func site(_ leftRight:LR)->Site
     {
         switch (leftRight)
         {
-        case .LEFT:
+        case .left:
             return leftSite
-        case .RIGHT:
+        case .right:
             return rightSite
-        case .Unknown:
+        case .unknown:
             assert(false, "INVALID SITE!")
         }
     }
     //
-    private let edgeIndex:Int;
+    fileprivate let edgeIndex:Int;
     //
     public func dispose()
     {
@@ -231,11 +231,12 @@ public final class Edge
     
     public init()
     {
-        edgeIndex = Edge.nedges++;
+        edgeIndex = Edge.nedges
+        Edge.nedges += 1
         refresh();
     }
     //
-    private func refresh()
+    fileprivate func refresh()
     {
         leftSite = nil;
         rightSite = nil
@@ -253,7 +254,7 @@ public final class Edge
     * @param bounds
     *
     */
-    func clipVertices(bounds:Rectangle)
+    func clipVertices(_ bounds:Rectangle)
     {
         let xmin = Double(bounds.minX)
         let ymin = Double(bounds.minY)
@@ -366,13 +367,13 @@ public final class Edge
         clippedVertices = [LR:Point]()
         if (vertex0 === leftVertex)
         {
-            clippedVertices[LR.LEFT] = Point(x: x0, y: y0);
-            clippedVertices[LR.RIGHT] = Point(x: x1, y: y1);
+            clippedVertices[LR.left] = Point(x: x0, y: y0);
+            clippedVertices[LR.right] = Point(x: x1, y: y1);
         }
         else
         {
-            clippedVertices[LR.RIGHT] = Point(x: x0, y: y0);
-            clippedVertices[LR.LEFT] = Point(x: x1, y: y1);
+            clippedVertices[LR.right] = Point(x: x0, y: y0);
+            clippedVertices[LR.left] = Point(x: x1, y: y1);
         }
     }
 }

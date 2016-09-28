@@ -1,8 +1,8 @@
 import Foundation
 
-public class Circle:Printable{
-    public let center:Point;
-    public let radius:Double;
+open class Circle:CustomStringConvertible{
+    open let center:Point;
+    open let radius:Double;
     
     public init(centerX:Double, centerY:Double, radius:Double)
     {
@@ -10,7 +10,7 @@ public class Circle:Printable{
         self.radius = radius;
     }
     
-    public var description:String{
+    open var description:String{
         return "Circle (center: \( center) + ; radius: \(radius))";
     }
 

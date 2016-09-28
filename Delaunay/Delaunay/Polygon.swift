@@ -1,32 +1,32 @@
 import Foundation
 
-public class Polygon
+open class Polygon
 {
-    private let vertices:[Point];
+    fileprivate let vertices:[Point];
 
     public init(vertices:[Point]){
         self.vertices = vertices;
     }
 
-    public func area() -> Double{
+    open func area() -> Double{
         return abs(signedDoubleArea() * 0.5);
     }
 
-    public func winding()->Winding{
-        var sDoubleArea = signedDoubleArea();
+    open func winding()->Winding{
+        let sDoubleArea = signedDoubleArea();
         if (sDoubleArea < 0)
         {
-            return Winding.CLOCKWISE;
+            return Winding.clockwise;
         }
         if (sDoubleArea > 0)
         {
-            return Winding.COUNTERCLOCKWISE;
+            return Winding.counterclockwise;
         }
-        return Winding.NONE;
+        return Winding.none;
     }
 
-    private func signedDoubleArea()->Double{
-        var n = vertices.count;
+    fileprivate func signedDoubleArea()->Double{
+        let n = vertices.count;
         var signedDoubleArea:Double = 0;
     
         for i in 0..<n{

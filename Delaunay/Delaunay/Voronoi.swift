@@ -12,33 +12,32 @@
 * OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
 */
 
-public class Voronoi
+open class Voronoi
 {
-    private var sites = SiteList();
-    private var sitesIndexedByLocation = [Point:Site]();
-    public var triangles = [Triangle]()
-    public var edges = [Edge]()
+    fileprivate var sites = SiteList();
+    fileprivate var sitesIndexedByLocation = [Point:Site]();
+    open var triangles = [Triangle]()
+    open var edges = [Edge]()
     
     // TODO generalize this so it doesn't have to be a rectangle;
     // then we can make the fractal voronois-within-voronois
-    public var plotBounds:Rectangle = Rectangle.zeroRect;
+    open var plotBounds:Rectangle = Rectangle.zeroRect;
     
-    public func dispose()
+    open func dispose()
     {
-        var i:Int, n:Int;
         sites.dispose();
         for tri in triangles{
             tri.dispose()
         }
-        triangles.removeAll(keepCapacity: true)
+        triangles.removeAll(keepingCapacity: true)
         
         for edge in edges{
             edge.dispose()
         }
         
-        edges.removeAll(keepCapacity: false)
+        edges.removeAll(keepingCapacity: false)
         plotBounds = Rectangle.zeroRect;
-        sitesIndexedByLocation.removeAll(keepCapacity: true)
+        sitesIndexedByLocation.removeAll(keepingCapacity: true)
     }
     
     public init(points:[Point], colors:[UInt]?, plotBounds:Rectangle, generateTriangles:Bool = false)
@@ -48,25 +47,24 @@ public class Voronoi
         fortunesAlgorithm();
     }
     
-    private func addSites(points:[Point], colors:[UInt]?)
+    fileprivate func addSites(_ points:[Point], colors:[UInt]?)
     {
-        var length = points.count;
-        for (var i = 0; i < length; ++i)
-        {
+        let length = points.count;
+        for i in 0..<length {
             addSite(points[i], color: colors != nil ? colors![i] : 0, index: i);
         }
     }
     
-    private func addSite(p:Point, color:UInt, index:Int)
+    fileprivate func addSite(_ p:Point, color:UInt, index:Int)
     {
-        var weight = Double(random() * 100);
-        var site:Site = Site.create(p, index: index, weight: weight, color: color);
+        let weight = Double(Int(arc4random()) * 100);
+        let site:Site = Site.create(p, index: index, weight: weight, color: color);
         sites.push(site);
         sitesIndexedByLocation[p] = site;
     }
     
     
-    public func region(p:Point)->[Point]
+    open func region(_ p:Point)->[Point]
     {
         if let site = sitesIndexedByLocation[p]	{
             return site.region(plotBounds);
@@ -77,15 +75,15 @@ public class Voronoi
     
     
     // TODO: bug: if you call this before you call region(), something goes wrong :(
-    public func neighborSitesForSite(coord:Point)->[Point]
+    open func neighborSitesForSite(_ coord:Point)->[Point]
     {
         var points = [Point]();
-        var site = sitesIndexedByLocation[coord];
+        let site = sitesIndexedByLocation[coord];
         if (site == nil)
         {
             return points;
         }
-        var sites = site!.neighborSites();
+        let sites = site!.neighborSites();
         for neighbor in sites
         {
             points.append(neighbor.coord);
@@ -93,44 +91,44 @@ public class Voronoi
         return points;
     }
     
-    public func circles()->[Circle]
+    open func circles()->[Circle]
     {
         return sites.circles();
     }
     
-    public func voronoiBoundaryForSite(coord:Point)->[LineSegment]
+    open func voronoiBoundaryForSite(_ coord:Point)->[LineSegment]
     {
-        return visibleLineSegments(selectEdgesForSitePoint(coord, edges));
+        return visibleLineSegments(selectEdgesForSitePoint(coord, edgesToTest: edges));
     }
     
-    public func delaunayLinesForSite(coord:Point)->[LineSegment]
+    open func delaunayLinesForSite(_ coord:Point)->[LineSegment]
     {
-        return delaunayLinesForEdges(selectEdgesForSitePoint(coord, edges));
+        return delaunayLinesForEdges(selectEdgesForSitePoint(coord, edgesToTest: edges));
     }
     
-    public func voronoiDiagram()->[LineSegment]
+    open func voronoiDiagram()->[LineSegment]
     {
         return visibleLineSegments(edges);
     }
     
-    public func delaunayTriangulation(/*keepOutMask:BitmapData = nil*/) -> [LineSegment]
+    open func delaunayTriangulation(/*keepOutMask:BitmapData = nil*/) -> [LineSegment]
     {
         return delaunayLinesForEdges(selectNonIntersectingEdges(/*keepOutMask,*/ edges));
     }
     
-    public func hull()->[LineSegment]
+    open func hull()->[LineSegment]
     {
         return delaunayLinesForEdges(hullEdges());
     }
     
-    private func hullEdges()->[Edge]
+    fileprivate func hullEdges()->[Edge]
     {
         return edges.filter{
             return $0.isPartOfConvexHull();
         }
     }
     
-    public func hullPointsInOrder()->[Point]
+    open func hullPointsInOrder()->[Point]
     {
         var hullEdges = self.hullEdges();
         
@@ -140,14 +138,14 @@ public class Voronoi
             return points;
         }
         
-        var reorderer = EdgeReorderer(origEdges: hullEdges, criterion: .Site);
+        let reorderer = EdgeReorderer(origEdges: hullEdges, criterion: .site);
         hullEdges = reorderer.edges;
         let orientations = reorderer.edgeOrientations;
         reorderer.dispose();
         
         var orientation:LR;
         
-        var n:Int = hullEdges.count;
+        let n:Int = hullEdges.count;
         for i in 0..<n{
             let edge = hullEdges[i];
             orientation = orientations[i];
@@ -156,19 +154,19 @@ public class Voronoi
         return points;
     }
     
-    public func spanningTree(type:SpanningType = .Minimum/*, keepOutMask:BitmapData = nil*/) -> [LineSegment]
+    open func spanningTree(_ type:SpanningType = .minimum/*, keepOutMask:BitmapData = nil*/) -> [LineSegment]
     {
         let edges = selectNonIntersectingEdges(/*keepOutMask,*/self.edges);
-        var segments:[LineSegment] = delaunayLinesForEdges(edges);
+        let segments:[LineSegment] = delaunayLinesForEdges(edges);
         return Kruskal(segments, type: type);
     }
     
-    public func regions()->[[Point]]
+    open func regions()->[[Point]]
     {
         return sites.regions(plotBounds);
     }
     
-    public func siteColors(/*referenceImage:BitmapData = nil*/)->[UInt]
+    open func siteColors(/*referenceImage:BitmapData = nil*/)->[UInt]
     {
         return sites.siteColors(/*referenceImage*/);
     }
@@ -181,17 +179,17 @@ public class Voronoi
     * @return coordinates of nearest Site to (x, y)
     *
     */
-    public func nearestSitePoint(/*proximityMap:BitmapData,*/ x:Double, y:Double)->Point?
+    open func nearestSitePoint(/*proximityMap:BitmapData,*/ _ x:Double, y:Double)->Point?
     {
         return sites.nearestSitePoint(/*proximityMap,*/ x, y: y);
     }
     
-    public func siteCoords()->[Point]
+    open func siteCoords()->[Point]
     {
         return sites.siteCoords();
     }
     
-    private func fortunesAlgorithm(generateTriangles:Bool = false)
+    fileprivate func fortunesAlgorithm(_ generateTriangles:Bool = false)
     {
         var newSite:Site?, bottomSite:Site, topSite:Site, tempSite:Site;
         var v:Vertex
@@ -214,7 +212,7 @@ public class Voronoi
         newSite = sites.next();
         
         
-        func leftRegion(he:Halfedge)->Site?{
+        func leftRegion(_ he:Halfedge)->Site?{
             if let edge = he.edge{
                 return edge.site(he.leftRight);
             }
@@ -223,7 +221,7 @@ public class Voronoi
             }
         }
         
-        func rightRegion(he:Halfedge)->Site?
+        func rightRegion(_ he:Halfedge)->Site?
         {
             if let edge = he.edge{
                 return edge.site(LR.other(he.leftRight));
@@ -258,7 +256,7 @@ public class Voronoi
                 //trace("new edge: " + edge);
                 edges.append(edge);
                 
-                bisector = Halfedge.create(edge, lr: LR.LEFT);
+                bisector = Halfedge.create(edge, lr: LR.left);
                 halfEdges.append(bisector);
                 // inserting two Halfedges into edgeList constitutes Step 10:
                 // insert bisector to the right of lbnd:
@@ -275,7 +273,7 @@ public class Voronoi
                 }
                 
                 lbnd = bisector;
-                bisector = Halfedge.create(edge,lr: LR.RIGHT);
+                bisector = Halfedge.create(edge,lr: LR.right);
                 halfEdges.append(bisector);
                 // second Halfedge for Step 10:
                 // insert bisector to the right of lbnd:
@@ -315,13 +313,13 @@ public class Voronoi
                 edgeList.remove(lbnd);
                 heap.remove(rbnd);
                 edgeList.remove(rbnd);
-                leftRight = LR.LEFT;
+                leftRight = LR.left;
                 if (bottomSite.y > topSite.y)
                 {
                     tempSite = bottomSite;
                     bottomSite = topSite;
                     topSite = tempSite;
-                    leftRight = LR.RIGHT;
+                    leftRight = LR.right;
                 }
                 edge = Edge.createBisectingEdge(bottomSite, site1: topSite);
                 edges.append(edge);
@@ -360,7 +358,7 @@ public class Voronoi
         {
             halfEdge.reallyDispose();
         }
-        halfEdges.removeAll(keepCapacity: false)
+        halfEdges.removeAll(keepingCapacity: false)
         
         // we need the vertices to clip the edges
         for edge in edges
@@ -371,12 +369,12 @@ public class Voronoi
         for vertex in vertices{
             vertex.dispose();
         }
-        vertices.removeAll(keepCapacity: false)
+        vertices.removeAll(keepingCapacity: false)
         
         
     }
     
-    static func compareByYThenX(s1:Site, s2:Site)->Int
+    static func compareByYThenX(_ s1:Site, s2:Site)->Int
     {
         if (s1.y < s2.y){ return -1;}
         if (s1.y > s2.y){ return 1;}
@@ -385,7 +383,7 @@ public class Voronoi
         return 0;
     }
     
-    static func compareByYThenX(s1:Site, s2:Point)->Int
+    static func compareByYThenX(_ s1:Site, s2:Point)->Int
     {
         if (s1.y < s2.y){ return -1;}
         if (s1.y > s2.y){ return 1;}
