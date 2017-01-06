@@ -27,12 +27,8 @@ public func Kruskal(_ lineSegs:[LineSegment], type:SpanningType = .minimum)->[Li
             lineSegments.sort{ return LineSegment.compareLengths_MAX($0,segment1: $1) < 0;}
     }
 
-<<<<<<< Updated upstream
     for i in (0...(lineSegments.count - 1)).reversed()
     {
-=======
-    for i in stride(from: lineSegments.count - 1, through: 0, by: -1) {
->>>>>>> Stashed changes
         let lineSegment:LineSegment = lineSegments[i];
         
         var node0:Node? = nodes[lineSegment.p0];
@@ -91,11 +87,7 @@ public func Kruskal(_ lineSegs:[LineSegment], type:SpanningType = .minimum)->[Li
         }
     }
     
-<<<<<<< Updated upstream
     for (_ , node) in nodes{
-=======
-    for (_,node) in nodes{
->>>>>>> Stashed changes
         nodePool.append(node);
     }
 

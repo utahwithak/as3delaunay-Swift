@@ -21,12 +21,8 @@ public final class SiteList:IDisposable
 
 		}
 //
-<<<<<<< Updated upstream
         @discardableResult
 		public func push(_ site:Site)->UInt
-=======
-		public func push(_ site:Site) -> UInt
->>>>>>> Stashed changes
 		{
 			sorted = false;
 			sites.append(site);
@@ -44,17 +40,11 @@ public final class SiteList:IDisposable
 
             if(currentIndex < sites.count)
 			{
-<<<<<<< Updated upstream
 
 				let toreturn =  sites[currentIndex]
                 currentIndex += 1
                 return toreturn
 
-=======
-                let index = currentIndex
-                currentIndex += 1
-				return sites[index];
->>>>>>> Stashed changes
 			}
 			else
 			{

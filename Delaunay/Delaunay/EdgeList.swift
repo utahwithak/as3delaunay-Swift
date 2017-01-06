@@ -104,14 +104,9 @@ public final class EdgeList{
         var halfEdge = getHash(bucket);
         if(halfEdge == nil)
         {
-<<<<<<< Updated upstream
             var i = 1
             while (true)
             {
-=======
-            var i = 0
-            while i > -1 {
->>>>>>> Stashed changes
                 if let h = getHash(bucket - i){
                     halfEdge = h
                     break;

@@ -26,12 +26,7 @@ open class EdgeReorderer{
     
     fileprivate func reorderEdges(_ origEdges:[Edge], criterion:Criteria)->[Edge]
     {
-<<<<<<< Updated upstream
         let n:Int = origEdges.count;
-=======
-        var j:Int;
-        var n:Int = origEdges.count;
->>>>>>> Stashed changes
         // we're going to reorder the edges in order of traversal
         var done = [Bool](repeating: false, count: n);
         var nDone = 0;
@@ -53,12 +48,7 @@ open class EdgeReorderer{
         done[0] = true;
         nDone += 1;
         
-<<<<<<< Updated upstream
         while (nDone < n) {
-=======
-        while (nDone < n)
-        {
->>>>>>> Stashed changes
             for i in 1..<n {
                 if (done[i])
                 {

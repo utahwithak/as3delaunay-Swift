@@ -42,37 +42,23 @@ open class Voronoi
     
     public init(points:[Point], colors:[UInt]?, plotBounds:Rectangle, generateTriangles:Bool = false)
     {
-        let cleared = Set<Point>(points)
-        addSites(cleared, colors: colors);
+        addSites(points, colors: colors);
         self.plotBounds = plotBounds;
         fortunesAlgorithm();
     }
     
-<<<<<<< Updated upstream
     fileprivate func addSites(_ points:[Point], colors:[UInt]?)
     {
         let length = points.count;
         for i in 0..<length {
             addSite(points[i], color: colors != nil ? colors![i] : 0, index: i);
-=======
-    fileprivate func addSites(_ points:Set<Point>, colors:[UInt]?)
-    {
-
-        for (i, point) in points.enumerated(){
-            addSite(point, color: 0, index: i);
->>>>>>> Stashed changes
         }
     }
     
     fileprivate func addSite(_ p:Point, color:UInt, index:Int)
     {
-<<<<<<< Updated upstream
         let weight = Double(Int(arc4random()) * 100);
         let site:Site = Site.create(p, index: index, weight: weight, color: color);
-=======
-        let weight = (Double(arc4random()) / Double(RAND_MAX)) * 100.0
-        let site = Site.create(p, index: index, weight: weight, color: color);
->>>>>>> Stashed changes
         sites.push(site);
         sitesIndexedByLocation[p] = site;
     }
@@ -227,11 +213,7 @@ open class Voronoi
         
         
         func leftRegion(_ he:Halfedge)->Site?{
-<<<<<<< Updated upstream
             if let edge = he.edge{
-=======
-            if let edge = he.edge {
->>>>>>> Stashed changes
                 return edge.site(he.leftRight);
             }
             else{
@@ -241,7 +223,7 @@ open class Voronoi
         
         func rightRegion(_ he:Halfedge)->Site?
         {
-            if let edge = he.edge {
+            if let edge = he.edge{
                 return edge.site(LR.other(he.leftRight));
             }
             else{
@@ -250,7 +232,7 @@ open class Voronoi
         }
         
         while(true){
-            if !heap.empty()
+            if (heap.empty() == false)
             {
                 newintstar = heap.min();
             }
@@ -309,7 +291,7 @@ open class Voronoi
                 
                 newSite = sites.next();
             }
-            else if !heap.empty()
+            else if (heap.empty() == false)
             {
                 /* intersection is smallest */
                 lbnd = heap.extractMin();
@@ -372,7 +354,7 @@ open class Voronoi
         heap.dispose();
         edgeList.dispose();
         
-        for halfEdge in halfEdges
+        for halfEdge:Halfedge in halfEdges
         {
             halfEdge.reallyDispose();
         }

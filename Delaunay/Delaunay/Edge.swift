@@ -38,9 +38,7 @@ public final class Edge
             a = dx / dy;
             c /= dy;
         }
-        if !a.isFinite {
-            print("FAIL")
-        }
+        
         let edge = Edge.create();
         
         edge.leftSite = site0;
@@ -233,12 +231,7 @@ public final class Edge
     
     public init()
     {
-<<<<<<< Updated upstream
         edgeIndex = Edge.nedges
-=======
-
-        edgeIndex = Edge.nedges;
->>>>>>> Stashed changes
         Edge.nedges += 1
         refresh();
     }

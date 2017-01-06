@@ -7,7 +7,7 @@ public final class Vertex: ICoord{
     fileprivate static func create(_ x:Double, y:Double)->Vertex
     {
         
-        if (!x.isFinite || !y.isFinite)
+        if (x.isNaN || y.isNaN)
         {
             return VERTEX_AT_INFINITY;
         }
@@ -31,12 +31,8 @@ public final class Vertex: ICoord{
     {
         refresh(x, y:y);
     }
-<<<<<<< Updated upstream
 
     @discardableResult
-=======
-    
->>>>>>> Stashed changes
     fileprivate func refresh(_ x:Double, y:Double)->Vertex
     {
         coord = Point(x:x, y:y);
@@ -50,13 +46,7 @@ public final class Vertex: ICoord{
     
     public func setIndex()
     {
-<<<<<<< Updated upstream
         vertexIndex = Vertex.nvertices + 1;
-=======
-        vertexIndex = Vertex.nvertices;
-        Vertex.nvertices += 1
-
->>>>>>> Stashed changes
     }
     
     public func toString()->String
@@ -91,7 +81,7 @@ public final class Vertex: ICoord{
         }
         
         determinant = edge0!.a * edge1!.b - edge0!.b * edge1!.a;
-        if (-1.0e-10 < determinant && determinant < 1.0e-10 || !determinant.isFinite)
+        if (-1.0e-10 < determinant && determinant < 1.0e-10)
         {
             // the edges are parallel
             return nil;
@@ -111,17 +101,12 @@ public final class Vertex: ICoord{
             edge = edge1!;
         }
         rightOfSite = intersectionX >= edge.rightSite!.x;
-<<<<<<< Updated upstream
         if ((rightOfSite && halfedge.leftRight == LR.left)
             ||  (!rightOfSite && halfedge.leftRight == LR.right))
-=======
-
-        if ((rightOfSite && halfedge.leftRight == LR.left) ||  (!rightOfSite && halfedge.leftRight == LR.right))
->>>>>>> Stashed changes
         {
             return nil;
         }
-
+        
         return Vertex.create(intersectionX, y: intersectionY);
     }
     
