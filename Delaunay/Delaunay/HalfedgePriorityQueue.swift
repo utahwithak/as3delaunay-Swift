@@ -21,7 +21,11 @@ open class HalfedgePriorityQueue // also known as heap
     open func dispose()
     {
         // get rid of dummies
+<<<<<<< Updated upstream
         for i in 0..<hashsize {
+=======
+        for i in 0 ..< hashsize {
+>>>>>>> Stashed changes
             if let edge = hash[i]{
                 edge.dispose();
             }
@@ -31,7 +35,12 @@ open class HalfedgePriorityQueue // also known as heap
     }
 
     fileprivate func initialize()
+<<<<<<< Updated upstream
     {    
+=======
+    {
+    
+>>>>>>> Stashed changes
         count = 0;
         minBucket = 0;
         hash = [Halfedge?](repeating: nil, count: hashsize);
@@ -42,12 +51,19 @@ open class HalfedgePriorityQueue // also known as heap
         }
     }
 
+<<<<<<< Updated upstream
     open func insert(_ halfEdge:Halfedge)
     {
         var previous:Halfedge?, next:Halfedge?;
         let insertionBucket = bucket(halfEdge);
         if (insertionBucket < minBucket)
         {
+=======
+    open func insert(_ halfEdge:Halfedge) {
+        var previous:Halfedge?, next:Halfedge?;
+        let insertionBucket = bucket(halfEdge);
+        if (insertionBucket < minBucket) {
+>>>>>>> Stashed changes
             minBucket = insertionBucket;
         }
         previous = hash[insertionBucket];

@@ -13,7 +13,11 @@ open class Polygon
     }
 
     open func winding()->Winding{
+<<<<<<< Updated upstream
         let sDoubleArea = signedDoubleArea();
+=======
+        var sDoubleArea = signedDoubleArea();
+>>>>>>> Stashed changes
         if (sDoubleArea < 0)
         {
             return Winding.clockwise;

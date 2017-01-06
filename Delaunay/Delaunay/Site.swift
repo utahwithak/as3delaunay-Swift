@@ -29,7 +29,11 @@ public final class Site:ICoord,IDisposable,CustomStringConvertible{
     //		 */
     fileprivate static func compare(_ s1:Site, s2:Site) -> Bool
     {
+<<<<<<< Updated upstream
         let returnValue:Int = Voronoi.compareByYThenX(s1, s2: s2);
+=======
+        let returnValue = Voronoi.compareByYThenX(s1, s2: s2);
+>>>>>>> Stashed changes
         
         // swap _siteIndex values if necessary to match new ordering:
         var tempIndex:Int;
@@ -80,10 +84,14 @@ public final class Site:ICoord,IDisposable,CustomStringConvertible{
     
     public init( p:Point, index:Int, weight:Double, color:UInt)
     {
-        refresh(p, index: index, weight: weight, color: color);
+        _ = refresh(p, index: index, weight: weight, color: color);
     }
+<<<<<<< Updated upstream
 
     @discardableResult
+=======
+    
+>>>>>>> Stashed changes
     fileprivate func refresh(_ p:Point, index:Int, weight:Double, color:UInt)->Site
     {
         coord = p;
@@ -127,8 +135,13 @@ public final class Site:ICoord,IDisposable,CustomStringConvertible{
     
     func nearestEdge()->Edge
     {
+<<<<<<< Updated upstream
         edges.sort {
             return Edge.compareSitesDistances($0,edge1: $1)<0
+=======
+        edges.sort{
+            return Edge.compareSitesDistances($0,edge1: $1) < 0
+>>>>>>> Stashed changes
         };
         return edges[0];
     }
@@ -198,8 +211,13 @@ public final class Site:ICoord,IDisposable,CustomStringConvertible{
     fileprivate func clipToBounds(_ bounds:Rectangle) -> [Point]
     {
         var points:[Point] = [Point]();
+<<<<<<< Updated upstream
         let n:Int = edges.count;
         var i:Int = 0;
+=======
+        let n = edges.count;
+        var i = 0;
+>>>>>>> Stashed changes
         var edge:Edge;
         while (i < n && (edges[i].visible == false))
         {
@@ -216,7 +234,11 @@ public final class Site:ICoord,IDisposable,CustomStringConvertible{
         points.append(edge.clippedVertices[orientation]!);
         points.append(edge.clippedVertices[LR.other(orientation)]!);
         
+<<<<<<< Updated upstream
         for j in (i + 1)..<n {
+=======
+        for j in i + 1..<n {
+>>>>>>> Stashed changes
             edge = edges[j];
             if (edge.visible == false)
             {
@@ -233,7 +255,11 @@ public final class Site:ICoord,IDisposable,CustomStringConvertible{
     fileprivate func connect(_ points:inout [Point], j:Int, bounds:Rectangle, closingUp:Bool = false)
     {
         let rightPoint:Point = points[points.count - 1];
+<<<<<<< Updated upstream
         let newEdge:Edge = edges[j] as Edge;
+=======
+        let newEdge = edges[j]
+>>>>>>> Stashed changes
         let newOrientation:LR = edgeOrientations[j];
         // the point that  must be connected to rightPoint:
         let newPoint:Point = newEdge.clippedVertices[newOrientation]!;
