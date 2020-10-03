@@ -57,7 +57,7 @@ open class Voronoi {
     }
     
     fileprivate func addSite(_ p: Point, color: UInt, index: Int) {
-        let weight = Double(Int.random(in: 0..<Int.max) * 100)
+        let weight = Double(Int(arc4random()) * 100)
         let site:Site = Site.create(p, index: index, weight: weight, color: color)
         sites.push(site)
         sitesIndexedByLocation[p] = site
