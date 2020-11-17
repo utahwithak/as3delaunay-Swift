@@ -16,3 +16,8 @@
 **/DerivedData
 *.xcuserstate
 
+
+# Generated files from SPM and Xcode.
+
+/.build
+/.swiftpm
